@@ -19,7 +19,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     image: marcelolourenco/app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh node index.js
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 40s docker-entrypoint.sh node index.js
     container_name: app
     tty: true
     volumes:
