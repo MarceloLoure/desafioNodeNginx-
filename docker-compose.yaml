@@ -19,7 +19,7 @@ services:
       context: ./node
       dockerfile: Dockerfile
     image: marcelolourenco/app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 40s docker-entrypoint.sh node index.js
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 40s sh -c "npm install && node index.js" 
     container_name: app
     tty: true
     volumes:
@@ -44,7 +44,6 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql:/var/lib/mysql
-      - ./database:/docker-entrypoint-initdb.d
     networks:
       - fullcycledesafio
 networks:

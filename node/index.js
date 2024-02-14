@@ -16,6 +16,30 @@ const connection = mysql.createConnection(config);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+function createDatabaseAndTable() {
+    connection.query('CREATE DATABASE IF NOT EXISTS nodedb', (error) => {
+        if (error) {
+            console.error('Erro ao criar o banco de dados:', error);
+        } else {
+            connection.query('USE nodedb', (error) => {
+                if (error) {
+                    console.error('Erro ao selecionar o banco de dados:', error);
+                } else {
+                    connection.query('CREATE TABLE IF NOT EXISTS people (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(255), PRIMARY KEY (id))', (error) => {
+                        if (error) {
+                            console.error('Erro ao criar a tabela:', error);
+                        } else {
+                            console.log('Banco de dados e tabela criados com sucesso.');
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+createDatabaseAndTable();
+
 app.all('/', (req, res) => {
     if (req.method === 'GET') {
         connection.query('SELECT name FROM people', (error, results) => {
